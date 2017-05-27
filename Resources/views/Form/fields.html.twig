@@ -1,0 +1,75 @@
+{% extends 'bootstrap_3_layout.html.twig' %}
+
+{% block form_help -%}
+  {% for attrname, attrvalue in attr %}
+    {% if attrname == 'help' %}
+      <span class="help-block ">
+            <em class="fa fa-info-circle" aria-hidden="true"></em>
+        {{ attrvalue|trans }}
+          </span>
+    {% endif %}
+  {% endfor %}
+{%- endblock form_help %}
+
+{% block form_row -%}
+  <div class="form-group{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
+    {{- form_label(form) -}}
+    {{- form_widget(form) -}}
+    {{- form_errors(form) -}}
+    {{- block('form_help') -}}
+  </div>
+{%- endblock form_row %}
+
+{% block html_widget %}
+  {% spaceless %}
+    {% if attr.class is defined and attr.background is defined and attr.color is defined %}
+      <div class="{{ attr.class }}"
+           style="background-color: {{ attr.background }} !important;color: {{ attr.color }} !important;">
+        {{ value|raw }}
+      </div>
+    {% elseif attr.class is defined %}
+      <div class="{{ attr.class }}">
+        {{ value|raw }}
+      </div>
+    {% else %}
+      <div>
+        {{ value|raw }}
+      </div>
+    {% endif %}
+
+  {% endspaceless %}
+{% endblock html_widget %}
+
+{% block price_widget %}
+  {% spaceless %}
+    <div class="form-group">
+      <label class="sr-only">Amount (in euros)</label>
+      <div class="input-group">
+        <input type="text" {{ block('widget_attributes') }}
+            {% if value is not empty %}value="{{ value }}" {% endif %}/>
+        <div class="input-group-addon">&euro;</div>
+      </div>
+    </div>
+  {% endspaceless %}
+{% endblock price_widget %}
+
+{% block gb_size_widget %}
+  {% spaceless %}
+    <div class="input-group gb-size">
+      <input type="text" {{ block('widget_attributes') }}
+          {% if value is not empty %}value="{{ value }}" {% endif %}/>
+      <div class="input-group-addon">GB</div>
+    </div>
+  {% endspaceless %}
+{% endblock gb_size_widget %}
+
+
+{% block color_widget %}
+  {% spaceless %}
+    <div class="input-group colorpicker-component colorpicker-element">
+      <input type="text" {{ block('widget_attributes') }}
+          {% if value is not empty %}value="{{ value }}" {% endif %}/>
+      <span class="input-group-addon"><i style="background: {{ value }}"></i></span>
+    </div>
+  {% endspaceless %}
+{% endblock color_widget %}
