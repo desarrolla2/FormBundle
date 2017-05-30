@@ -27,6 +27,9 @@ class PhoneValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
+        if (!$value) {
+            return;
+        }
         if (!$this->checkTelephone($value)) {
             $this->context->buildViolation($constraint->message)
                           ->addViolation();

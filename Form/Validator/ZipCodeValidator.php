@@ -27,9 +27,12 @@ class ZipCodeValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
+        if (!$value) {
+            return;
+        }
         if (!preg_match('/(([0][1-9])|([1-4]\d)|([5][0-2]))(\d{3})/', $value)) {
             $this->context->buildViolation($constraint->message)
-                ->addViolation();
+                          ->addViolation();
         }
     }
 }
