@@ -34,6 +34,9 @@ class DniCifValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
+        if (!$value) {
+            return;
+        }
         if (!$this->checkDni($value) && !$this->checkCif($value)) {
             $this->context->buildViolation($constraint->message)
                           ->addViolation();
