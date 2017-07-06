@@ -26,7 +26,7 @@ class PriceType extends AbstractType
                     new Range(['min' => 0]),
                 ],
                 'scale' => 2,
-                'empty_data' => 0,
+                'empty_data' => 0.0,
                 'required' => true,
                 'placeholder' => 'Price',
                 'attr' => [

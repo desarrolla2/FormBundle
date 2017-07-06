@@ -28,7 +28,7 @@ class CardNumberTransformer implements DataTransformerInterface
             return '';
         }
 
-        return $number->getId();
+        return $number;
     }
 
     /**
