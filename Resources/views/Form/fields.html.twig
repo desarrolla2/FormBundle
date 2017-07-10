@@ -53,6 +53,19 @@
   {% endspaceless %}
 {% endblock price_widget %}
 
+{% block percentage_widget %}
+  {% spaceless %}
+    <div class="form-group">
+      <label class="sr-only">Percentage (%)</label>
+      <div class="input-group">
+        <input type="text" {{ block('widget_attributes') }}
+            {% if value is not empty %}value="{{ value }}" {% endif %}/>
+        <div class="input-group-addon">%</div>
+      </div>
+    </div>
+  {% endspaceless %}
+{% endblock percentage_widget %}
+
 {% block gb_size_widget %}
   {% spaceless %}
     <div class="input-group gb-size">
