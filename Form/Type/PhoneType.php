@@ -11,7 +11,8 @@
 
 namespace Desarrolla2\FormBundle\Form\Type;
 
-use FormBundle\Form\Validator\Phone;
+
+use Desarrolla2\FormBundle\Form\Validator\Phone;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
