@@ -31,6 +31,7 @@ class PriceType extends AbstractType
                 'placeholder' => 'Price',
                 'attr' => [
                     'class' => 'form-control',
+                    'help' => 'Format 1234.56',
                 ],
             ]
         );
