@@ -1,6 +1,12 @@
 services:
+
+    jbbcode.default_code_definition_set:
+        class: 'JBBCode\DefaultCodeDefinitionSet'
+
     jbbcode.parser:
         class: 'JBBCode\Parser'
+        calls:
+            - ['addCodeDefinitionSet', ['@jbbcode.default_code_definition_set']]
 
     desarrolla2_form.form_transformer.bbcode_transformer:
         class: 'Desarrolla2\FormBundle\Form\Transformer\BBcodeTransformer'

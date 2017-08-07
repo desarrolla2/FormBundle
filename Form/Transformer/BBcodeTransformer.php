@@ -52,10 +52,11 @@ class BBcodeTransformer implements DataTransformerInterface
     public function reverseTransform($text)
     {
         $this->parser->parse($text);
-
         $html = $this->parser->getAsHTML();
+
+        dump($html);
         $url = '@(http(s)?)?(://)?(([a-zA-Z])([-\w]+\.)+([^\s\.]+[^\s]*)+[^,.\s])@';
 
-        return preg_replace($url, '<a href="http$2://$4" target="_blank" rel="nofollow" title="$0">$0</a>', $string);
+        return preg_replace($url, '<a href="http$2://$4" target="_blank" rel="nofollow" title="$0">$0</a>', $html);
     }
 }
