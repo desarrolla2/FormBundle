@@ -9,7 +9,9 @@
     }
   ],
   "require": {
-    "symfony/framework-bundle": "~3.0"
+    "symfony/framework-bundle": "~3.0",
+    "exercise/htmlpurifier-bundle": "^1.0@dev",
+    "jbbcode/jbbcode": "dev-master"
   },
   "autoload": {
     "psr-4": {
