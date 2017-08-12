@@ -23,14 +23,14 @@ class TextAreaBBCodeType extends AbstractType
 {
     private $transformer;
 
-    public function __construct(DataTransformerInterface $purifierTransformer)
+    public function __construct(DataTransformerInterface $bbCodeTransformer)
     {
-        $this->purifierTransformer = $purifierTransformer;
+        $this->transformer = $bbCodeTransformer;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addViewTransformer($this->purifierTransformer);
+        $builder->addViewTransformer($this->transformer);
     }
 
     public function configureOptions(OptionsResolver $resolver)
