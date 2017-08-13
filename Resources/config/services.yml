@@ -18,8 +18,12 @@ services:
         tags:
             - { name: 'form.type' }
 
+    desarrolla2_form.transformer.html_purifier:
+        class: 'Exercise\HTMLPurifierBundle\Form\HTMLPurifierTransformer'
+        arguments: ['@exercise_html_purifier.default']
+
     desarrolla2_form.form_type.text_area_html_type:
         class: 'Desarrolla2\FormBundle\Form\Type\TextAreaHtmlType'
-        arguments: ['@exercise_htmlpurifier.form.htmlpurifier_transformer']
+        arguments: ['@desarrolla2_form.transformer.html_purifier']
         tags:
             - { name: 'form.type' }
