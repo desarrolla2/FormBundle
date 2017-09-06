@@ -1,12 +1,14 @@
 <?php
 
 /*
- * This file is part of the Jotelulu package
+ * This file is part of the Form Bundle package
  *
- * Copyright (c) 2017 Adder Global && Devtia
+ * Copyright (c) 2017 Daniel González
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @author Daniel González <daniel@desarrolla2.com>
  */
 
 namespace Desarrolla2\FormBundle\Form\Validator;
@@ -51,13 +53,10 @@ class PhoneValidator extends ConstraintValidator
         }
 
         if (!in_array($telephoneChars[0], [6, 7, 8, 9])) {
-
             return false;
         }
 
         if (!preg_match('/^[\d]{9}$/', $telephone)) {
-
-
             return false;
         }
 
