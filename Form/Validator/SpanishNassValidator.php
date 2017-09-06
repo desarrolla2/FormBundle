@@ -16,7 +16,7 @@ namespace Desarrolla2\FormBundle\Form\Validator;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
-class ZipCodeValidator extends ConstraintValidator
+class SpanishNassValidator extends ConstraintValidator
 {
     /**
      * @var \Symfony\Component\Validator\Context\ExecutionContextInterface
@@ -32,9 +32,37 @@ class ZipCodeValidator extends ConstraintValidator
         if (!$value) {
             return;
         }
-        if (!preg_match('/(([0][1-9])|([1-4]\d)|([5][0-2]))(\d{3})/', $value)) {
+        if (!$this->checkSpanishNass($value)) {
             $this->context->buildViolation($constraint->message)
                 ->addViolation();
         }
+    }
+
+    /**
+     * @param string $telephone
+     *
+     * @return bool
+     */
+    private function checkSpanishNass($nass)
+    {
+        $nass = preg_replace('[\D]', '', $nass);
+        if (strlen($nass) != 12) {
+            return false;
+        }
+        $province = substr($nass, 0, 2);
+        $number = substr($nass, 2, 8);
+        $control = substr($nass, 10, 2);
+        if ($number < 10000000) {
+            $nd = $number + $province * 10000000;
+        } else {
+            $nd = $province.$number;
+        }
+
+        $validation = $nd % 97;
+        if ($validation != $control) {
+            return false;
+        }
+
+        return true;
     }
 }

@@ -22,7 +22,7 @@ class DniNieValidator extends ConstraintValidator
     const LETTER_MAP = 'TRWAGMYFPDXBNJZSQVHLCKE';
 
     /**
-     * @param mixed      $value
+     * @param mixed $value
      * @param Constraint $constraint
      */
     public function validate($value, Constraint $constraint)

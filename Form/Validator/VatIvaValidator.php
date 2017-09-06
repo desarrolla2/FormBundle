@@ -24,7 +24,7 @@ class VatIvaValidator extends ConstraintValidator
     protected $context;
 
     /**
-     * @param mixed      $value
+     * @param mixed $value
      * @param Constraint $constraint
      */
     public function validate($value, Constraint $constraint)

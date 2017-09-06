@@ -35,7 +35,7 @@ class FileExtensionValidator extends FileValidator
         }
         if (!in_array($extension, $constraint->fileExtensions)) {
             $this->context->buildViolation($constraint->message)
-                          ->addViolation();
+                ->addViolation();
         }
     }
 }

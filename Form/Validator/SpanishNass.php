@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraint;
 /**
  * @Annotation
  */
-class DniCif extends Constraint
+class SpanishNass extends Constraint
 {
-    public $message = 'Invalid DNI/CIF';
+    public $message = 'Invalid Spanish nass';
 }

@@ -24,7 +24,7 @@ class PhoneValidator extends ConstraintValidator
     protected $context;
 
     /**
-     * @param mixed      $value
+     * @param mixed $value
      * @param Constraint $constraint
      */
     public function validate($value, Constraint $constraint)
@@ -34,7 +34,7 @@ class PhoneValidator extends ConstraintValidator
         }
         if (!$this->checkTelephone($value)) {
             $this->context->buildViolation($constraint->message)
-                          ->addViolation();
+                ->addViolation();
         }
     }
 

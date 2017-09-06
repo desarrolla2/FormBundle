@@ -31,7 +31,7 @@ class DniCifValidator extends ConstraintValidator
     protected $context;
 
     /**
-     * @param mixed      $value
+     * @param mixed $value
      * @param Constraint $constraint
      */
     public function validate($value, Constraint $constraint)
@@ -41,7 +41,7 @@ class DniCifValidator extends ConstraintValidator
         }
         if (!$this->checkDni($value) && !$this->checkCif($value)) {
             $this->context->buildViolation($constraint->message)
-                          ->addViolation();
+                ->addViolation();
         }
     }
 
