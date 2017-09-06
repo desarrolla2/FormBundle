@@ -35,6 +35,7 @@ class PercentageType extends AbstractType
                     'class' => 'form-control',
                     'min' => 0,
                     'max' => 100,
+                    'help' => 'Format 1234.56',
                 ],
             ]
         );
