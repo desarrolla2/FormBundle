@@ -29,9 +29,6 @@ class SpanishNassValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
-        if (!$value) {
-            return;
-        }
         if (!$this->checkSpanishNass($value)) {
             $this->context->buildViolation($constraint->message)
                 ->addViolation();
