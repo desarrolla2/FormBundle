@@ -81,16 +81,25 @@ class DniNieValidator extends ConstraintValidator
      *       TRUE
      */
 
+    public function isValid($value)
+    {
+        if (!$value) {
+            return true;
+        }
+        if (!$this->isValidNIF($value) && !$this->isValidNIE($value)) {
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * @param mixed $value
      * @param Constraint $constraint
      */
     public function validate($value, Constraint $constraint)
     {
-        if (!$value) {
-            return;
-        }
-        if (!$this->isValidNIF($value) && !$this->isValidNIE($value)) {
+        if (!$this->isValid($value)) {
             $this->context->buildViolation($constraint->message)
                 ->addViolation();
         }
@@ -383,7 +392,9 @@ class DniNieValidator extends ConstraintValidator
     {
         $fixedDocNumber = strtoupper($docNumber);
 
-        return $this->isValidNIF($fixedDocNumber) || $this->isValidNIE($fixedDocNumber) || $this->isValidCIF($fixedDocNumber);
+        return $this->isValidNIF($fixedDocNumber) || $this->isValidNIE($fixedDocNumber) || $this->isValidCIF(
+                $fixedDocNumber
+            );
     }
 
     /*
