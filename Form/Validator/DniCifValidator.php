@@ -13,87 +13,29 @@
 
 namespace Desarrolla2\FormBundle\Form\Validator;
 
-use Symfony\Component\Validator\Constraint;
-use Symfony\Component\Validator\ConstraintValidator;
-
-class DniCifValidator extends ConstraintValidator
+class DniCifValidator extends DniNieValidator
 {
-    private $dniFormatExpr = '/((^[A-Z]{1}[0-9]{7}[A-Z0-9]{1}$|^[T]{1}[A-Z0-9]{8}$)|^[0-9]{8}[A-Z]{1}$)/';
-    private $standardDniExpr = '/(^[0-9]{8}[A-Z]{1}$)/';
-    private $availableLastChar = 'TRWAGMYFPDXBNJZSQVHLCKE';
-    private $cifFormatExpr1 = '/^[ABEH][0-9]{8}$/i';
-    private $cifFormatExpr2 = '/^[KPQS][0-9]{7}[A-J]$/i';
-    private $cifFormatExpr3 = '/^[CDFGJLMNRUVW][0-9]{7}[0-9A-J]$/i';
-
     /**
      * @var \Symfony\Component\Validator\Context\ExecutionContextInterface
      */
     protected $context;
+    private $cifFormatExpr1 = '/^[ABEH][0-9]{8}$/i';
+    private $cifFormatExpr2 = '/^[KPQS][0-9]{7}[A-J]$/i';
+    private $cifFormatExpr3 = '/^[CDFGJLMNRUVW][0-9]{7}[0-9A-J]$/i';
 
-    /**
-     * @param mixed $value
-     * @param Constraint $constraint
-     */
-    public function validate($value, Constraint $constraint)
+
+    public function isValid($value)
     {
         if (!$value) {
-            return;
+            return true;
         }
-        if (!$this->checkDni($value) && !$this->checkCif($value)) {
-            $this->context->buildViolation($constraint->message)
-                ->addViolation();
-        }
-    }
-
-    private function splitDni($dni)
-    {
-        return str_split($dni, 1);
-    }
-
-    protected function checkDniFormat($dni)
-    {
-        return preg_match($this->dniFormatExpr, $dni);
-    }
-
-    protected function isValidDniLastChar($dni)
-    {
-        $dniCharacters = $this->splitDni($dni);
-
-        return $dniCharacters[8] == substr($this->availableLastChar, substr($dni, 0, 8) % 23, 1);
-    }
-
-    protected function checkStandardDni($dni)
-    {
-        // Check if standard DNI
-        return (preg_match($this->standardDniExpr, $dni)) ? $this->isValidDniLastChar($dni) : false;
-    }
-
-    protected function checkSpecialDni($dni)
-    {
-        $dniCharacters = $this->splitDni($dni);
-
-        $plus = $dniCharacters[2] + $dniCharacters[4] + $dniCharacters[6];
-        for ($i = 1; $i < 8; $i += 2) {
-            $plus += (int)substr((2 * $dniCharacters[$i]), 0, 1) + (int)substr((2 * $dniCharacters[$i]), 1, 1);
-        }
-
-        $n = 10 - substr($plus, strlen($plus) - 1, 1);
-
-        return (preg_match('/^[KLM]{1}/', $dni)) ? ($dniCharacters[8] == chr(64 + $n) || $this->isValidDniLastChar(
-                $dni
-            )) : false;
-    }
-
-    public function checkDni($dni)
-    {
-        $dni = strtoupper($dni);
-
-        // Invalid format
-        if (!$this->checkDniFormat($dni)) {
+        if (!$this->isValidNIF($value) && !$this->isValidNIE($value) && !$this->isValidCif(
+                $value
+            ) && !$this->isValidEuropeanVat($value)) {
             return false;
         }
 
-        return $this->checkStandardDni($dni) || $this->checkSpecialDni($dni);
+        return true;
     }
 
     /**
@@ -101,8 +43,9 @@ class DniCifValidator extends ConstraintValidator
      *
      * @return bool
      */
-    protected function checkCifFormat($cif)
+    protected function isValidCif($cif)
     {
+        $cif = strtoupper($cif);
         if (preg_match($this->cifFormatExpr1, $cif) || preg_match($this->cifFormatExpr2, $cif) || preg_match(
                 $this->cifFormatExpr3,
                 $cif
@@ -142,24 +85,19 @@ class DniCifValidator extends ConstraintValidator
     }
 
     /**
-     * @param $cif
-     *
+     * @param $number
+     * @param $countryCode
      * @return bool
      */
-    public function checkCif($cif)
+    protected function isValidEuropeanVat($vatNumber)
     {
-        $cif = strtoupper($cif);
-
-        return $this->checkCifFormat($cif);
-    }
-
-    private function isValid($number, $countryCode)
-    {
-        $vatNumber = str_replace([' ', '.', '-', ',', ', '], '', trim($number));
+        $vatNumber = strtoupper(str_replace([' ', '.', '-', ',', ', '], '', trim($vatNumber)));
+        $countryCode = substr($vatNumber, 0, 2);
+        $vatNumber = substr($vatNumber, 2, strlen($vatNumber));
 
         $client = new \SoapClient("http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl");
         if (!$client) {
-            throw  new \RuntimeException('No se ha podido conectar con el sistema de validación de VAT-IVA');
+            throw  new \RuntimeException('Could not connect to VAT-VAT validation system.');
         }
 
         $params = ['countryCode' => $countryCode, 'vatNumber' => $vatNumber];
@@ -168,7 +106,7 @@ class DniCifValidator extends ConstraintValidator
             $result = $client->checkVat($params);
 
             return (boolean)$result->valid;
-        } catch (SoapFault $e) {
+        } catch (\SoapFault $e) {
         }
 
         return false;

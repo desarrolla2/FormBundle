@@ -44,12 +44,12 @@ class PhoneTransformer implements DataTransformerInterface
      * @param mixed $number
      * @return mixed|string
      */
-    public function transform($nass)
+    public function transform($value)
     {
-        if (null === $nass) {
+        if (null === $value) {
             return '';
         }
 
-        return $nass;
+        return $value;
     }
 }
