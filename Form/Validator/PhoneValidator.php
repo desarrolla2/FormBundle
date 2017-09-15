@@ -23,6 +23,14 @@ class PhoneValidator extends ConstraintValidator
      */
     protected $context;
 
+    /** @var string $defaultRegion */
+    protected $defaultRegion;
+
+    public function __construct($defaultRegion = 'ES')
+    {
+        $this->defaultRegion = $defaultRegion;
+    }
+
     /**
      * @param mixed $value
      * @param Constraint $constraint
@@ -32,34 +40,13 @@ class PhoneValidator extends ConstraintValidator
         if (!$value) {
             return;
         }
-        if (!$this->checkTelephone($value)) {
-            $this->context->buildViolation($constraint->message)
+        $phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+        try {
+            $phoneNumber = $phoneUtil->parse($value, $this->defaultRegion);
+        } catch (\libphonenumber\NumberParseException $e) {
+            $this->context->buildViolation($e->getMessage())
                 ->addViolation();
         }
-    }
 
-    /**
-     * @param string $telephone
-     *
-     * @return bool
-     */
-    private function checkTelephone($telephone)
-    {
-        $telephone = str_replace(' ', '', $telephone);
-        $telephoneChars = str_split($telephone);
-
-        if (empty($telephone)) {
-            return false;
-        }
-
-        if (!in_array($telephoneChars[0], [6, 7, 8, 9])) {
-            return false;
-        }
-
-        if (!preg_match('/^[\d]{9}$/', $telephone)) {
-            return false;
-        }
-
-        return true;
     }
 }
