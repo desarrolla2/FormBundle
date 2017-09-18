@@ -34,10 +34,17 @@ class PhoneTransformer implements DataTransformerInterface
      */
     public function reverseTransform($value)
     {
-        $phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
-        $phoneNumber = $phoneUtil->parse($value, $this->defaultRegion);
+        if (!$value) {
+            return;
+        }
+        try {
+            $phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+            $phoneNumber = $phoneUtil->parse($value, $this->defaultRegion);
 
-        return $phoneUtil->format($phoneNumber, $this->format);
+            return $phoneUtil->format($phoneNumber, $this->format);
+        } catch (\Exception  $e) {
+            return $value;
+        }
     }
 
     /**
