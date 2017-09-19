@@ -18,6 +18,33 @@ use Symfony\Component\Form\DataTransformerInterface;
 class SpanishNassTransformer implements DataTransformerInterface
 {
     /**
+     * @param mixed $nass
+     * @return bool|string
+     */
+    public function reverseTransform($value)
+    {
+        $nass = preg_replace('[\D]', '', $value);
+        if (strlen($nass) != 12) {
+            return $value;
+        }
+        $province = substr($nass, 0, 2);
+        $number = substr($nass, 2, 8);
+        $control = substr($nass, 10, 2);
+        if ($number < 10000000) {
+            $nd = $number + $province * 10000000;
+        } else {
+            $nd = $province.$number;
+        }
+
+        $validation = $nd % 97;
+        if ($validation != $control) {
+            return $value;
+        }
+
+        return sprintf('%s/%s/%s', $province, $number, $control);
+    }
+
+    /**
      * @param mixed $number
      * @return mixed|string
      */
@@ -28,22 +55,5 @@ class SpanishNassTransformer implements DataTransformerInterface
         }
 
         return $nass;
-    }
-
-    /**
-     * @param mixed $nass
-     * @return bool|string
-     */
-    public function reverseTransform($nass)
-    {
-        $nass = preg_replace('[\D]', '', $nass);
-        if (strlen($nass) != 12) {
-            return false;
-        }
-        $province = substr($nass, 0, 2);
-        $number = substr($nass, 2, 8);
-        $control = substr($nass, 10, 2);
-
-        return sprintf('%d/%d/%d', $province, $number, $control);
     }
 }
