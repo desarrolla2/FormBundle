@@ -15,7 +15,7 @@ namespace Desarrolla2\FormBundle\Form\Transformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 
-class ClearAlphanumericTransformer implements DataTransformerInterface
+class ClearNotAlphanumericTransformer implements DataTransformerInterface
 {
     /**
      * @param string $number

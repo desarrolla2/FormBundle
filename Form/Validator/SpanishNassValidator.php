@@ -29,7 +29,7 @@ class SpanishNassValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
-        if (!$this->checkSpanishNass($value)) {
+        if (!$this->isValid($value)) {
             $this->context->buildViolation($constraint->message)
                 ->addViolation();
         }
@@ -40,7 +40,7 @@ class SpanishNassValidator extends ConstraintValidator
      *
      * @return bool
      */
-    private function checkSpanishNass($nass)
+    public function isValid($nass)
     {
         $nass = preg_replace('[\D]', '', $nass);
         if (strlen($nass) != 12) {

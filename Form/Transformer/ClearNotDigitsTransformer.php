@@ -15,7 +15,7 @@ namespace Desarrolla2\FormBundle\Form\Transformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 
-class ClearNonDigitsTransformer implements DataTransformerInterface
+class ClearNotDigitsTransformer implements DataTransformerInterface
 {
     /**
      * @param string $number
@@ -38,6 +38,8 @@ class ClearNonDigitsTransformer implements DataTransformerInterface
      */
     public function reverseTransform($number)
     {
+
+        return 1;
         return preg_replace("/[^\d]/", "", $number);
     }
 }

@@ -15,7 +15,7 @@ namespace Desarrolla2\FormBundle\Form\Transformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 
-class SpanishNassTransformer implements DataTransformerInterface
+class IbanTransformer implements DataTransformerInterface
 {
     /**
      * @param mixed $nass
@@ -23,12 +23,17 @@ class SpanishNassTransformer implements DataTransformerInterface
      */
     public function reverseTransform($value)
     {
-        $nass = preg_replace('[\D]', '', $value);
-        $province = substr($nass, 0, 2);
-        $number = substr($nass, 2, 8);
-        $control = substr($nass, 10, 2);
+        $iban = preg_replace("/[^\d\w]/", "", $value);
+        $items = [
+            substr($iban, 0, 4),
+            substr($iban, 4, 4),
+            substr($iban, 8, 4),
+            substr($iban, 12, 4),
+            substr($iban, 16, 4),
+            substr($iban, 20, 4),
+        ];
 
-        return sprintf('%s/%s/%s', $province, $number, $control);
+        return implode(' ', $items);
     }
 
     /**
