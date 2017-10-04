@@ -24,18 +24,6 @@ class SpanishNassValidator extends ConstraintValidator
     protected $context;
 
     /**
-     * @param mixed $value
-     * @param Constraint $constraint
-     */
-    public function validate($value, Constraint $constraint)
-    {
-        if (!$this->isValid($value)) {
-            $this->context->buildViolation($constraint->message)
-                ->addViolation();
-        }
-    }
-
-    /**
      * @param string $telephone
      *
      * @return bool
@@ -61,5 +49,20 @@ class SpanishNassValidator extends ConstraintValidator
         }
 
         return true;
+    }
+
+    /**
+     * @param mixed $value
+     * @param Constraint $constraint
+     */
+    public function validate($value, Constraint $constraint)
+    {
+        if (null === $value || '' === $value) {
+            return;
+        }
+        if (!$this->isValid($value)) {
+            $this->context->buildViolation($constraint->message)
+                ->addViolation();
+        }
     }
 }
