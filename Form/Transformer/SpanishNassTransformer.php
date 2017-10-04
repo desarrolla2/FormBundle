@@ -23,6 +23,9 @@ class SpanishNassTransformer implements DataTransformerInterface
      */
     public function reverseTransform($value)
     {
+        if (null === $value || '' === $value) {
+            return;
+        }
         $nass = preg_replace('[\D]', '', $value);
         $province = substr($nass, 0, 2);
         $number = substr($nass, 2, 8);

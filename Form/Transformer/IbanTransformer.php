@@ -23,6 +23,9 @@ class IbanTransformer implements DataTransformerInterface
      */
     public function reverseTransform($value)
     {
+        if (null === $value || '' === $value) {
+            return;
+        }
         $iban = preg_replace("/[^\d\w]/", "", $value);
         $items = [
             substr($iban, 0, 4),
