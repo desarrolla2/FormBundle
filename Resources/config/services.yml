@@ -27,3 +27,9 @@ services:
         arguments: ['@desarrolla2_form.transformer.html_purifier']
         tags:
             - { name: 'form.type' }
+
+    desarrolla2_form.form_type.entity_hidden_type:
+        class: 'Desarrolla2\FormBundle\Form\Type\EntityHiddenType'
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+            - { name: 'form.type' }
