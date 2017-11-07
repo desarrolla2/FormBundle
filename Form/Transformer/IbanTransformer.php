@@ -28,7 +28,7 @@ class IbanTransformer implements DataTransformerInterface
         }
         $iban = preg_replace("/[^\d\w]/", "", $value);
         $items = [
-            substr($iban, 0, 4),
+            strtoupper(substr($iban, 0, 4)),
             substr($iban, 4, 4),
             substr($iban, 8, 4),
             substr($iban, 12, 4),
