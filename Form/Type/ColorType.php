@@ -32,7 +32,6 @@ class ColorType extends AbstractType
                 'attr' => [
                     'class' => 'form-control color-picker',
                 ],
-                'data' => '#000000',
             ]
         );
     }
