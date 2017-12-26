@@ -2,7 +2,7 @@
 
 {% block form_help -%}
   {% for attrname, attrvalue in attr %}
-    {% if attrname == 'help' %}
+    {% if attrname == 'help' and attrvalue %}
       <span class="help-block ">
             <em class="fa fa-info-circle" aria-hidden="true"></em>
         {{ attrvalue|trans }}
@@ -46,7 +46,7 @@
       <label class="sr-only">Amount (in euros)</label>
       <div class="input-group">
         <input type="text" {{ block('widget_attributes') }}
-            {% if value is not empty %}value="{{ value }}" {% endif %}/>
+          {% if value is not empty %}value="{{ value }}" {% endif %}/>
         <div class="input-group-addon">&euro;</div>
       </div>
     </div>
@@ -57,7 +57,7 @@
   {% spaceless %}
     <div class="input-group percentage">
       <input type="text" {{ block('widget_attributes') }}
-          {% if value is not empty %}value="{{ value }}" {% endif %}/>
+        {% if value is not empty %}value="{{ value }}" {% endif %}/>
       <div class="input-group-addon">%</div>
     </div>
   {% endspaceless %}
@@ -67,7 +67,7 @@
   {% spaceless %}
     <div class="input-group gb-size">
       <input type="text" {{ block('widget_attributes') }}
-          {% if value is not empty %}value="{{ value }}" {% endif %}/>
+        {% if value is not empty %}value="{{ value }}" {% endif %}/>
       <div class="input-group-addon">GB</div>
     </div>
   {% endspaceless %}
@@ -77,7 +77,7 @@
   {% spaceless %}
     <div class="input-group colorpicker-component colorpicker-element">
       <input type="text" {{ block('widget_attributes') }}
-          {% if value is not empty %}value="{{ value }}" {% endif %}/>
+        {% if value is not empty %}value="{{ value }}" {% endif %}/>
       <span class="input-group-addon"><i style="background: {{ value }}"></i></span>
     </div>
   {% endspaceless %}
