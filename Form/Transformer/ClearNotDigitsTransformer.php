@@ -22,13 +22,9 @@ class ClearNotDigitsTransformer implements DataTransformerInterface
      *
      * @return string
      */
-    public function transform($number)
+    public function reverseTransform($number)
     {
-        if (null === $number) {
-            return '';
-        }
-
-        return $number;
+        return preg_replace("/[^\d]/", "", $number);
     }
 
     /**
@@ -36,10 +32,12 @@ class ClearNotDigitsTransformer implements DataTransformerInterface
      *
      * @return string
      */
-    public function reverseTransform($number)
+    public function transform($number)
     {
+        if (null === $number) {
+            return '';
+        }
 
-        return 1;
-        return preg_replace("/[^\d]/", "", $number);
+        return $number;
     }
 }

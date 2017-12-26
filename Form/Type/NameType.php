@@ -26,7 +26,7 @@ class NameType extends AbstractType
             [
                 'required' => true,
                 'constraints' => [
-                    new Length(['min' => 3, 'max' => 100]),
+                    new Length(['min' => 2, 'max' => 100]),
                 ],
                 'trim' => true,
             ]
