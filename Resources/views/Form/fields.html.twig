@@ -11,6 +11,27 @@
   {% endfor %}
 {%- endblock form_help %}
 
+{%- block button_widget -%}
+  {%- if label is empty -%}
+    {%- if label_format is not empty -%}
+      {% set label = label_format|replace({
+      '%name%': name,
+      '%id%': id,
+      }) %}
+    {%- else -%}
+      {% set label = name|humanize %}
+    {%- endif -%}
+  {%- endif -%}
+  <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>
+    {% for attrname, attrvalue in attr %}
+      {% if attrname == 'icon' and attrvalue %}
+        <i class="{{ attrvalue }}" aria-hidden="true"></i>
+      {% endif %}
+    {% endfor %}
+    {{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}
+  </button>
+{%- endblock button_widget -%}
+
 {% block form_row -%}
   <div class="form-group{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
     {{- form_label(form) -}}
