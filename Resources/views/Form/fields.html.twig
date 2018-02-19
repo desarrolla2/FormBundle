@@ -15,8 +15,8 @@
   {%- if label is empty -%}
     {%- if label_format is not empty -%}
       {% set label = label_format|replace({
-      '%name%': name,
-      '%id%': id,
+        '%name%': name,
+        '%id%': id,
       }) %}
     {%- else -%}
       {% set label = name|humanize %}
@@ -103,3 +103,13 @@
     </div>
   {% endspaceless %}
 {% endblock color_widget %}
+
+{% block select_ajax_widget %}
+  {% spaceless %}
+    <select {{ block('widget_attributes') }} data-url="{{ route }}">
+      {% for key, choice in choices %}
+        <option value="{{ choice.data.id }}" {% if choice.data.id == value %}selected{% endif %}>{{ key }}</option>
+      {% endfor %}
+    </select>
+  {% endspaceless %}
+{% endblock %}
