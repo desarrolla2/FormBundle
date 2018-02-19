@@ -54,3 +54,4 @@ class SelectAjaxType extends AbstractType
         return ChoiceType::class;
     }
 }
+

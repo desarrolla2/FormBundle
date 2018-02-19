@@ -1,15 +1,24 @@
 $(document).ready(function () {
-  $('.select2.select_ajax').click(function (e) {
-    if ($(this).data('url') == '') {
+  var $target = $('.select2.select_ajax');
+  $target.each(function () {
+    changeSelectAjax($(this));
+  });
+
+  $target.change(function () {
+    changeSelectAjax($(this));
+  });
+
+  function changeSelectAjax(target) {
+    if (target.data('url') == '') {
       throw 'url is not defined'
     }
     if (!$.isFunction($.fn.select2)) {
       throw 'select2 is not defined'
     }
 
-    $(this).select2({
+    target.select2({
       ajax: {
-        url: $(this).data('url'),
+        url: target.data('url'),
         data: function (params) {
           var query = {
             search: params.term,
@@ -27,5 +36,5 @@ $(document).ready(function () {
         }
       }
     });
-  });
+  }
 });
