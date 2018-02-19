@@ -28,7 +28,7 @@ class SelectAjaxType extends AbstractType
         $resolver->setDefaults(
             [
                 'attr' => [
-                    'class' => 'select_ajax',
+                    'class' => 'select2 select_ajax',
                 ],
                 'route' => '',
             ]

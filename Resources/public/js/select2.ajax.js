@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  $('select2 select_ajax').click(function (e) {
+  $('.select2.select_ajax').click(function (e) {
     if ($(this).data('url') == '') {
       throw 'url is not defined'
     }
