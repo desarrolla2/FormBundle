@@ -8,17 +8,17 @@ $(document).ready(function () {
     changeSelectAjax($(this));
   });
 
-  function changeSelectAjax(target) {
-    if (target.data('url') == '') {
+  function changeSelectAjax($target) {
+    if ($target.data('url') == '') {
       throw 'url is not defined'
     }
     if (!$.isFunction($.fn.select2)) {
       throw 'select2 is not defined'
     }
 
-    target.select2({
+    $target.select2({
       ajax: {
-        url: target.data('url'),
+        url: $target.data('url'),
         data: function (params) {
           var query = {
             search: params.term,
