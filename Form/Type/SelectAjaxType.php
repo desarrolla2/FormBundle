@@ -41,14 +41,12 @@ class SelectAjaxType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['route'] = $options['route'];
-        $view->vars['items_per_page'] = $options['items_per_page'];
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->setAttribute('route', $options['route'])
-            ->setAttribute('items_per_page', $options['items_per_page']);
+            ->setAttribute('route', $options['route']);
     }
 
     public function getParent()

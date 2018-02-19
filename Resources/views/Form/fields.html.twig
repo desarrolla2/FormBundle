@@ -104,14 +104,8 @@
 {% endblock color_widget %}
 
 {% block select_ajax_widget %}
-  {% block javascript %}
-    {{ parent() }}
-    {% spaceless %}
-      <script src="{{ path('_form.select.ajax.js') }}" type="application/javascript"></script>
-    {% endspaceless %}
-  {% endblock %}
   {% spaceless %}
-    <select {{ block('widget_attributes') }} data-url="{{ route }}" data-items-per-page="{{ items_per_page }}">
+    <select {{ block('widget_attributes') }} data-url="{{ route }}">
       {% for key, choice in choices %}
         <option value="{{ choice.value }}" {% if choice.value == value %}selected{% endif %}>
           {{ choice.label }}
