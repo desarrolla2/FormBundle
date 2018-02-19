@@ -2,7 +2,7 @@
 
 ## SELECT2 AJAX WIDGET
 
-Its use requires the import script js [select2.ajax.js](Resources/Public/js/select2.ajax.js)
+Its use requires the import script js [select2.ajax.js](Resources/public/js/select2.ajax.js)
 
 ## Contact
 
