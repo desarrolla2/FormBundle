@@ -1,5 +1,4 @@
 {% extends 'bootstrap_3_layout.html.twig' %}
-
 {% block form_help -%}
   {% for attrname, attrvalue in attr %}
     {% if attrname == 'help' and attrvalue %}
@@ -15,8 +14,8 @@
   {%- if label is empty -%}
     {%- if label_format is not empty -%}
       {% set label = label_format|replace({
-      '%name%': name,
-      '%id%': id,
+        '%name%': name,
+        '%id%': id,
       }) %}
     {%- else -%}
       {% set label = name|humanize %}
@@ -103,3 +102,15 @@
     </div>
   {% endspaceless %}
 {% endblock color_widget %}
+
+{% block select_ajax_widget %}
+  {% spaceless %}
+    <select {{ block('widget_attributes') }} data-url="{{ route }}">
+      {% for key, choice in choices %}
+        <option value="{{ choice.value }}" {% if choice.value == value %}selected{% endif %}>
+          {{ choice.label }}
+        </option>
+      {% endfor %}
+    </select>
+  {% endspaceless %}
+{% endblock %}
