@@ -20,14 +20,14 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
-class SelectAjaxType
+class SelectAjaxType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
             [
                 'attr' => [
-                    'class' => 'select2_ajax',
+                    'class' => 'select_ajax',
                 ],
                 'route' => '',
             ]
@@ -40,12 +40,14 @@ class SelectAjaxType
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['route'] = $options['route'];
+        $view->vars['items_per_page'] = $options['items_per_page'];
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->setAttribute('route', $options['route']);
+            ->setAttribute('route', $options['route'])
+            ->setAttribute('items_per_page', $options['items_per_page']);
     }
 
     public function getParent()
