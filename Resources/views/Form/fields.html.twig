@@ -1,5 +1,4 @@
 {% extends 'bootstrap_3_layout.html.twig' %}
-
 {% block form_help -%}
   {% for attrname, attrvalue in attr %}
     {% if attrname == 'help' and attrvalue %}
@@ -114,7 +113,6 @@
   {% spaceless %}
     <select {{ block('widget_attributes') }} data-url="{{ route }}" data-items-per-page="{{ items_per_page }}">
       {% for key, choice in choices %}
-        {{ dump(choice) }}
         <option value="{{ choice.value }}" {% if choice.value == value %}selected{% endif %}>
           {{ choice.label }}
         </option>
