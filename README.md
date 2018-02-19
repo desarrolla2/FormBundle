@@ -1,6 +1,8 @@
 # Form Bundle
 
-Not Ready :(
+## SELECT2 AJAX WIDGET
+
+Its use requires the import script js [select2.ajax.js](Resources/Public/js/select2.ajax.js)
 
 ## Contact
 
