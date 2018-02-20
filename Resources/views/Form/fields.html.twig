@@ -105,9 +105,10 @@
 
 {% block select_ajax_widget %}
   {% spaceless %}
-    <select {{ block('widget_attributes') }} data-url="{{ route }}">
+    <select {{ block('widget_attributes') }} data-url="{{ route }}"
+                                             multiple="{% if multiple %}true{% else %}false{% endif %}">
       {% for key, choice in choices %}
-        <option value="{{ choice.value }}" {% if choice.value == value %}selected{% endif %}>
+        <option value="{{ choice.value.id }}" {% if choice.value.id == value %}selected{% endif %}>
           {{ choice.label }}
         </option>
       {% endfor %}
