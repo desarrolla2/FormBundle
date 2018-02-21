@@ -115,3 +115,16 @@
     </select>
   {% endspaceless %}
 {% endblock %}
+
+{% block entity_ajax_widget %}
+  {% spaceless %}
+    <select {{ block('widget_attributes') }} data-url="{{ route }}"
+                                             multiple="{% if multiple %}true{% else %}false{% endif %}">
+      {% for key, choice in choices %}
+        <option value="{{ choice.value.id }}" {% if choice.value.id == value %}selected{% endif %}>
+          {{ choice.label }}
+        </option>
+      {% endfor %}
+    </select>
+  {% endspaceless %}
+{% endblock %}
