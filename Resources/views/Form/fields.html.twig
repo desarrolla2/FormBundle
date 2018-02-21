@@ -105,10 +105,21 @@
 
 {% block select_ajax_widget %}
   {% spaceless %}
-    <select {{ block('widget_attributes') }} data-url="{{ route }}"
-                                             multiple="{% if multiple %}true{% else %}false{% endif %}">
+    <select {{ block('widget_attributes') }} data-url="{{ route }}" {% if multiple %}multiple{% endif %}>
       {% for key, choice in choices %}
-        <option value="{{ choice.value.id }}" {% if choice.value.id == value %}selected{% endif %}>
+        {% set selected = false %}
+        {% if multiple %}
+          {% for data in value %}
+            {% if data == choice.value %}
+              {% set selected = true %}
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          {% if value == choice.value %}
+            {% set selected = true %}
+          {% endif %}
+        {% endif %}
+        <option value="{{ choice.value }}" {% if selected %}selected{% endif %}>
           {{ choice.label }}
         </option>
       {% endfor %}
@@ -118,10 +129,21 @@
 
 {% block entity_ajax_widget %}
   {% spaceless %}
-    <select {{ block('widget_attributes') }} data-url="{{ route }}"
-                                             multiple="{% if multiple %}true{% else %}false{% endif %}">
+    <select {{ block('widget_attributes') }} data-url="{{ route }}" {% if multiple %}multiple{% endif %}>
       {% for key, choice in choices %}
-        <option value="{{ choice.value.id }}" {% if choice.value.id == value %}selected{% endif %}>
+        {% set selected = false %}
+        {% if multiple %}
+          {% for data in value %}
+            {% if data == choice.value %}
+              {% set selected = true %}
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          {% if value == choice.value %}
+            {% set selected = true %}
+          {% endif %}
+        {% endif %}
+        <option value="{{ choice.value }}" {% if selected %}selected{% endif %}>
           {{ choice.label }}
         </option>
       {% endfor %}
