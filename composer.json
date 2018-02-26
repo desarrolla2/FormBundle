@@ -10,7 +10,6 @@
   ],
   "require": {
     "symfony/framework-bundle": "^2.8 || ^3.0 || ^4.0",
-    "sensio/framework-extra-bundle": "^2.8 || ^3.0 || ^4.0",
     "exercise/htmlpurifier-bundle": "^0.2",
     "giggsey/libphonenumber-for-php": "^8.8"
   },
