@@ -40,7 +40,7 @@ class TextAreaHtmlType extends AbstractType
             [
                 'constraints' => [
                     new NotBlank(),
-                    new Length(['min' => 3, 'max' => 5000]),
+                    new Length(['min' => 3, 'max' => 10000]),
                 ],
                 'attr' => ['class' => 'ckeditor form-control'],
             ]
