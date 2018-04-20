@@ -1,24 +1,27 @@
 $(document).ready(function () {
+  if (!$.isFunction($.fn.select2)) {
+    return;
+  }
+
   var $target = $('.select2.select_ajax');
   $target.each(function () {
     changeSelectAjax($(this));
   });
 
-  $target.change(function () {
+  $target.on("select2:select select2:unselecting", function () {
     changeSelectAjax($(this));
   });
 
   function changeSelectAjax($target) {
-    if ($target.data('url') == '') {
-      throw 'url is not defined'
-    }
-    if (!$.isFunction($.fn.select2)) {
-      throw 'select2 is not defined'
+    var url = $target.data('url');
+    if (!url) {
+      console.warn('url is not defined');
+      return;
     }
 
     $target.select2({
       ajax: {
-        url: $target.data('url'),
+        url: url,
         data: function (params) {
           var query = {
             search: params.term,
