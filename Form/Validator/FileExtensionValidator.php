@@ -13,7 +13,6 @@
 
 namespace Desarrolla2\FormBundle\Form\Validator;
 
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints\FileValidator;
 
@@ -29,7 +28,7 @@ class FileExtensionValidator extends FileValidator
         if (!$value) {
             return;
         }
-        $extension = $value->getClientOriginalExtension();
+        $extension = mb_strtolower($value->getClientOriginalExtension());
         if (!count($constraint->fileExtensions)) {
             return;
         }
