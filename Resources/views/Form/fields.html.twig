@@ -60,13 +60,26 @@
   {% endspaceless %}
 {% endblock html_widget %}
 
+{% block porcentage_widget %}
+  {% spaceless %}
+    <div class="form-group price-type">
+      <label class="sr-only">Percentage (%)</label>
+      <div class="input-group">
+        <input type="text" {{ block('widget_attributes') }}
+            {% if value is not empty %}value="{{ value }}" {% endif %}/>
+        <div class="input-group-addon">%</div>
+      </div>
+    </div>
+  {% endspaceless %}
+{% endblock porcentage_widget %}
+
 {% block price_widget %}
   {% spaceless %}
     <div class="form-group price-type">
       <label class="sr-only">Amount (in euros)</label>
       <div class="input-group">
         <input type="text" {{ block('widget_attributes') }}
-          {% if value is not empty %}value="{{ value }}" {% endif %}/>
+            {% if value is not empty %}value="{{ value }}" {% endif %}/>
         <div class="input-group-addon">&euro;</div>
       </div>
     </div>
@@ -77,7 +90,7 @@
   {% spaceless %}
     <div class="input-group percentage-type">
       <input type="text" {{ block('widget_attributes') }}
-        {% if value is not empty %}value="{{ value }}" {% endif %}/>
+          {% if value is not empty %}value="{{ value }}" {% endif %}/>
       <div class="input-group-addon">%</div>
     </div>
   {% endspaceless %}
@@ -87,7 +100,7 @@
   {% spaceless %}
     <div class="input-group gb-size-type">
       <input type="text" {{ block('widget_attributes') }}
-        {% if value is not empty %}value="{{ value }}" {% endif %}/>
+          {% if value is not empty %}value="{{ value }}" {% endif %}/>
       <div class="input-group-addon">GB</div>
     </div>
   {% endspaceless %}
@@ -97,7 +110,7 @@
   {% spaceless %}
     <div class="input-group colorpicker-component colorpicker-element">
       <input type="text" {{ block('widget_attributes') }}
-        {% if value is not empty %}value="{{ value }}" {% endif %}/>
+          {% if value is not empty %}value="{{ value }}" {% endif %}/>
       <span class="input-group-addon"><i style="background: {{ value }}"></i></span>
     </div>
   {% endspaceless %}

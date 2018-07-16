@@ -25,7 +25,7 @@ class PercentageType extends AbstractType
         $resolver->setDefaults(
             [
                 'constraints' => [
-                    new Range(['min' => 0, 'max' => 100]),
+                    new Range(['min' => 0]),
                 ],
                 'scale' => 2,
                 'empty_data' => 0.0,
@@ -33,9 +33,6 @@ class PercentageType extends AbstractType
                 'placeholder' => 'percentage',
                 'attr' => [
                     'class' => 'form-control',
-                    'min' => 0,
-                    'max' => 100,
-                    'help' => 'Format 1234.56',
                 ],
             ]
         );
