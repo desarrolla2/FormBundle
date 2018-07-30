@@ -86,6 +86,19 @@
   {% endspaceless %}
 {% endblock price_widget %}
 
+{% block money_widget %}
+  {% spaceless %}
+    <div class="form-group money-type">
+      <label class="sr-only">Amount</label>
+      <div class="input-group">
+        <input type="text" {{ block('widget_attributes') }}
+            {% if value is not empty %}value="{{ value }}" {% endif %}/>
+        <div class="input-group-addon"><i class="fa fa-money"></i></div>
+      </div>
+    </div>
+  {% endspaceless %}
+{% endblock money_widget %}
+
 {% block percentage_widget %}
   {% spaceless %}
     <div class="input-group percentage-type">
