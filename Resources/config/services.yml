@@ -1,35 +1,38 @@
 services:
 
-    jbbcode.default_code_definition_set:
-        class: 'JBBCode\DefaultCodeDefinitionSet'
+  jbbcode.default_code_definition_set:
+    class: 'JBBCode\DefaultCodeDefinitionSet'
 
-    jbbcode.parser:
-        class: 'JBBCode\Parser'
-        calls:
-            - ['addCodeDefinitionSet', ['@jbbcode.default_code_definition_set']]
+  jbbcode.parser:
+    class: 'JBBCode\Parser'
+    calls:
+    - ['addCodeDefinitionSet', ['@jbbcode.default_code_definition_set']]
 
-    desarrolla2_form.form_transformer.bbcode_transformer:
-        class: 'Desarrolla2\FormBundle\Form\Transformer\BBcodeTransformer'
-        arguments: ['@jbbcode.parser']
+  desarrolla2_form.form_transformer.bbcode_transformer:
+    class: 'Desarrolla2\FormBundle\Form\Transformer\BBcodeTransformer'
+    arguments: ['@jbbcode.parser']
 
-    desarrolla2_form.form_type.text_area_bbcode_type:
-        class: 'Desarrolla2\FormBundle\Form\Type\TextAreaBBCodeType'
-        arguments: ['@desarrolla2_form.form_transformer.bbcode_transformer']
-        tags:
-            - { name: 'form.type' }
+  desarrolla2_form.form_type.text_area_bbcode_type:
+    class: 'Desarrolla2\FormBundle\Form\Type\TextAreaBBCodeType'
+    arguments: ['@desarrolla2_form.form_transformer.bbcode_transformer']
+    tags:
+    - { name: 'form.type' }
 
-    desarrolla2_form.transformer.html_purifier:
-        class: 'Exercise\HTMLPurifierBundle\Form\HTMLPurifierTransformer'
-        arguments: ['@exercise_html_purifier.default']
+  desarrolla2_form.transformer.html_purifier:
+    class: 'Exercise\HTMLPurifierBundle\Form\HTMLPurifierTransformer'
+    arguments: ['@exercise_html_purifier.default']
 
-    desarrolla2_form.form_type.text_area_html_type:
-        class: 'Desarrolla2\FormBundle\Form\Type\TextAreaHtmlType'
-        arguments: ['@desarrolla2_form.transformer.html_purifier']
-        tags:
-            - { name: 'form.type' }
+  desarrolla2_form.form_transformer.utf8transformer:
+    class: 'Desarrolla2\FormBundle\Form\Transformer\Utf8Transformer'
 
-    desarrolla2_form.form_type.entity_hidden_type:
-        class: 'Desarrolla2\FormBundle\Form\Type\EntityHiddenType'
-        arguments: ['@doctrine.orm.entity_manager']
-        tags:
-            - { name: 'form.type' }
+  desarrolla2_form.form_type.text_area_html_type:
+    class: 'Desarrolla2\FormBundle\Form\Type\TextAreaHtmlType'
+    arguments: ['@desarrolla2_form.transformer.html_purifier', '@desarrolla2_form.form_transformer.utf8transformer']
+    tags:
+    - { name: 'form.type' }
+
+  desarrolla2_form.form_type.entity_hidden_type:
+    class: 'Desarrolla2\FormBundle\Form\Type\EntityHiddenType'
+    arguments: ['@doctrine.orm.entity_manager']
+    tags:
+    - { name: 'form.type' }
