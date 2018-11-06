@@ -48,11 +48,11 @@ class TextAreaHtmlType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($this->purifierTransformer) {
-            $builder->addModelTransformer($this->purifierTransformer);
-        }
         if ($this->utf8Transformer) {
             $builder->addModelTransformer($this->utf8Transformer);
+        }
+        if ($this->purifierTransformer) {
+            $builder->addModelTransformer($this->purifierTransformer);
         }
     }
 
