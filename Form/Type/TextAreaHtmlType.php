@@ -44,15 +44,15 @@ class TextAreaHtmlType extends AbstractType
 
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($this->purifierTransformer) {
-            $builder->addModelTransformer($this->purifierTransformer);
-        }
-        if ($this->utf8Transformer) {
+        if ($this->utf8Transformer && $options['transform_utf8']) {
             $builder->addModelTransformer($this->utf8Transformer);
+        }
+        if ($this->purifierTransformer && $options['transform_purifier']) {
+            $builder->addModelTransformer($this->purifierTransformer);
         }
     }
 
@@ -63,6 +63,8 @@ class TextAreaHtmlType extends AbstractType
     {
         $resolver->setDefaults(
             [
+                'transform_purifier' => true,
+                'transform_utf8' => true,
                 'constraints' => [
                     new NotBlank(),
                     new Length(['min' => 3, 'max' => 5000]),
