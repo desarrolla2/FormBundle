@@ -27,13 +27,14 @@ class PriceType extends AbstractType
                 'constraints' => [
                     new Range(['min' => 0]),
                 ],
+                'grouping' => true,
                 'scale' => 2,
                 'empty_data' => 0.0,
                 'required' => true,
                 'placeholder' => 'Price',
                 'attr' => [
                     'class' => 'form-control',
-                    'help' => 'Format 1234.56',
+                    'help' => 'Format 1,234.56',
                 ],
             ]
         );
