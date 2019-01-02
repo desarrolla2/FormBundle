@@ -28,7 +28,7 @@ class IbanTransformer implements DataTransformerInterface
         }
         $iban = preg_replace("/[^\d\w]/", "", $value);
 
-        return $iban;
+        return mb_strtoupper($iban);
     }
 
     /**
