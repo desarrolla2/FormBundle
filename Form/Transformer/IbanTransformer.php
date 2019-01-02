@@ -27,16 +27,8 @@ class IbanTransformer implements DataTransformerInterface
             return;
         }
         $iban = preg_replace("/[^\d\w]/", "", $value);
-        $items = [
-            strtoupper(substr($iban, 0, 4)),
-            substr($iban, 4, 4),
-            substr($iban, 8, 4),
-            substr($iban, 12, 4),
-            substr($iban, 16, 4),
-            substr($iban, 20, 4),
-        ];
 
-        return implode(' ', $items);
+        return $iban;
     }
 
     /**
