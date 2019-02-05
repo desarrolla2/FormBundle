@@ -26,9 +26,15 @@ class IbanTransformer implements DataTransformerInterface
         if (null === $value || '' === $value) {
             return;
         }
-        $iban = preg_replace("/[^\d\w]/", "", $value);
+        $value = mb_strtoupper($value);
+        $value = preg_replace("/[^\d\w]/", "", $value);
+        $parts = [];
+        while (strlen($value)) {
+            $parts[] = substr($value, 0, 4);
+            $value = substr($value, 4, strlen($value));
+        }
 
-        return mb_strtoupper($iban);
+        return implode(' ', $parts);
     }
 
     /**
