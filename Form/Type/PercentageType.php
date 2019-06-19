@@ -33,6 +33,7 @@ class PercentageType extends AbstractType
                 'placeholder' => 'percentage',
                 'attr' => [
                     'class' => 'form-control',
+                    'help' => 'Format 12.34',
                 ],
             ]
         );
