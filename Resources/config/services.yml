@@ -8,6 +8,13 @@ services:
     calls:
       - ['addCodeDefinitionSet', ['@jbbcode.default_code_definition_set']]
 
+  desarrolla2_form.transformer.html_purifier:
+    class: 'Exercise\HTMLPurifierBundle\Form\HTMLPurifierTransformer'
+    arguments: ['@exercise_html_purifier.default']
+
+  desarrolla2_form.form_transformer.utf8transformer:
+    class: 'Desarrolla2\FormBundle\Form\Transformer\Utf8Transformer'
+
   desarrolla2_form.form_transformer.bbcode_transformer:
     class: 'Desarrolla2\FormBundle\Form\Transformer\BBcodeTransformer'
     arguments: ['@jbbcode.parser']
@@ -16,33 +23,26 @@ services:
     class: 'Desarrolla2\FormBundle\Form\Type\TextAreaBBCodeType'
     arguments: ['@desarrolla2_form.form_transformer.bbcode_transformer']
     tags:
-      - { name: 'form.type' }
-
-  desarrolla2_form.transformer.html_purifier:
-    class: 'Exercise\HTMLPurifierBundle\Form\HTMLPurifierTransformer'
-    arguments: ['@exercise_html_purifier.default']
-
-  desarrolla2_form.form_transformer.utf8transformer:
-    class: 'Desarrolla2\FormBundle\Form\Transformer\Utf8Transformer'
+      - { name: 'form.type', alias: 'Desarrolla2\FormBundle\Form\Type\TextAreaBBCodeType' }
 
   desarrolla2_form.form_type.text_area_html_type:
     class: 'Desarrolla2\FormBundle\Form\Type\TextAreaHtmlType'
     arguments: ['@desarrolla2_form.transformer.html_purifier', '@desarrolla2_form.form_transformer.utf8transformer']
     tags:
-      - { name: 'form.type' }
+      - { name: 'form.type', alias: 'Desarrolla2\FormBundle\Form\Type\TextAreaHtmlType' }
 
   desarrolla2_form.form_type.entity_hidden_type:
     class: 'Desarrolla2\FormBundle\Form\Type\EntityHiddenType'
     arguments: ['@doctrine.orm.entity_manager']
     tags:
-      - { name: 'form.type' }
+      - { name: 'form.type', alias: 'Desarrolla2\FormBundle\Form\Type\EntityHiddenType' }
+
+  desarrolla2_form.form_type.number_range_type:
+    class: 'Desarrolla2\FormBundle\Form\Type\NumberRangeType'
+    tags:
+      - { name: 'form.type', alias: 'Desarrolla2\FormBundle\Form\Type\NumberRangeType' }
 
   desarrolla2_form.form_sonata_filter.number_range_filter:
     class: 'Desarrolla2\FormBundle\Form\Sonata\Filter\NumberRangeFilter'
     tags:
       - { name: 'sonata.admin.filter.type' }
-
-  desarrolla2_form.form_type.number_range_type:
-    class: 'Desarrolla2\FormBundle\Form\Type\NumberRangeType'
-    tags:
-      - { name: 'form.type' }
