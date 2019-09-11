@@ -10,41 +10,20 @@ class NumberRangeFilter extends Filter
 {
     protected $range = true;
 
-    /**
-     * {@inheritdoc}
-     */
     public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
     {
         if (!$data || !is_array($data) || !array_key_exists('value', $data)) {
             return;
         }
-        if ($this->range) {
-            if (!array_key_exists('from', $data['value']) || !array_key_exists('to', $data['value'])) {
-                return;
-            }
-            if (!$data['value']['from'] || !$data['value']['to']) {
-                return;
-            }
-            $fromQuantity = $this->getNewParameterName($queryBuilder);
-            $toQuantity = $this->getNewParameterName($queryBuilder);
-            $this->applyWhere($queryBuilder, sprintf('%s.%s %s :%s', $alias, $field, '>=', $fromQuantity));
-            $this->applyWhere($queryBuilder, sprintf('%s.%s %s :%s', $alias, $field, '<=', $toQuantity));
-            $queryBuilder->setParameter($fromQuantity, $data['value']['from']);
-            $queryBuilder->setParameter($toQuantity, $data['value']['to']);
-        }
+        $this->handleFrom($queryBuilder, $alias, $field, $data);
+        $this->handleTo($queryBuilder, $alias, $field, $data);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getDefaultOptions()
     {
         return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getRenderSettings()
     {
         return [
@@ -57,5 +36,29 @@ class NumberRangeFilter extends Filter
                 'label' => $this->getLabel(),
             ],
         ];
+    }
+
+    private function handleFrom(ProxyQueryInterface $queryBuilder, $alias, $field, $data): void
+    {
+        if (!array_key_exists('from', $data['value'])) {
+            return;
+        }
+        if ($data['value']['from']) {
+            $fromQuantity = $this->getNewParameterName($queryBuilder);
+            $this->applyWhere($queryBuilder, sprintf('%s.%s %s :%s', $alias, $field, '>=', $fromQuantity));
+            $queryBuilder->setParameter($fromQuantity, $data['value']['from']);
+        }
+    }
+
+    private function handleTo(ProxyQueryInterface $queryBuilder, $alias, $field, $data): void
+    {
+        if (!array_key_exists('to', $data['value'])) {
+            return;
+        }
+        if ($data['value']['to']) {
+            $toQuantity = $this->getNewParameterName($queryBuilder);
+            $this->applyWhere($queryBuilder, sprintf('%s.%s %s :%s', $alias, $field, '<=', $toQuantity));
+            $queryBuilder->setParameter($toQuantity, $data['value']['to']);
+        }
     }
 }
