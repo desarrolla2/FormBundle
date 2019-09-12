@@ -15,8 +15,8 @@ class NumberRangeFilter extends Filter
         if (!$data || !is_array($data) || !array_key_exists('value', $data)) {
             return;
         }
-        $this->handleFrom($queryBuilder, $alias, $field, $data);
-        $this->handleTo($queryBuilder, $alias, $field, $data);
+        $this->handle($queryBuilder, $alias, $field, $data, 'from', '>=');
+        $this->handle($queryBuilder, $alias, $field, $data, 'to', '<=');
     }
 
     public function getDefaultOptions()
@@ -38,27 +38,15 @@ class NumberRangeFilter extends Filter
         ];
     }
 
-    private function handleFrom(ProxyQueryInterface $queryBuilder, $alias, $field, $data): void
+    private function handle(ProxyQueryInterface $queryBuilder, $alias, $field, $data, $arrayKey, $operator): void
     {
-        if (!array_key_exists('from', $data['value'])) {
+        if (!array_key_exists($arrayKey, $data['value'])) {
             return;
         }
-        if ($data['value']['from']) {
+        if ($data['value'][$arrayKey]) {
             $fromQuantity = $this->getNewParameterName($queryBuilder);
-            $this->applyWhere($queryBuilder, sprintf('%s.%s %s :%s', $alias, $field, '>=', $fromQuantity));
-            $queryBuilder->setParameter($fromQuantity, $data['value']['from']);
-        }
-    }
-
-    private function handleTo(ProxyQueryInterface $queryBuilder, $alias, $field, $data): void
-    {
-        if (!array_key_exists('to', $data['value'])) {
-            return;
-        }
-        if ($data['value']['to']) {
-            $toQuantity = $this->getNewParameterName($queryBuilder);
-            $this->applyWhere($queryBuilder, sprintf('%s.%s %s :%s', $alias, $field, '<=', $toQuantity));
-            $queryBuilder->setParameter($toQuantity, $data['value']['to']);
+            $this->applyWhere($queryBuilder, sprintf('%s.%s %s :%s', $alias, $field, $operator, $fromQuantity));
+            $queryBuilder->setParameter($fromQuantity, $data['value'][$arrayKey]);
         }
     }
 }
