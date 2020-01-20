@@ -17,6 +17,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 class NameType extends AbstractType
 {
@@ -26,6 +27,7 @@ class NameType extends AbstractType
             [
                 'required' => true,
                 'constraints' => [
+                    new NotNull(),
                     new Length(['min' => 2, 'max' => 100]),
                 ],
                 'trim' => true,
