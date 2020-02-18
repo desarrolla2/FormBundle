@@ -18,10 +18,6 @@ use Symfony\Component\Form\DataTransformerInterface;
 
 class TwigTemplateTransformer implements DataTransformerInterface
 {
-    /**
-     * @param mixed $value
-     * @return bool|string
-     */
     public function reverseTransform($value)
     {
         $value = trim(Encoding::fixUTF8($value));
@@ -34,16 +30,8 @@ class TwigTemplateTransformer implements DataTransformerInterface
         return $value;
     }
 
-    /**
-     * @param mixed $number
-     * @return mixed|string
-     */
     public function transform($value)
     {
-        if (null === $value) {
-            return '';
-        }
-
-        return $value;
+        return $this->reverseTransform($value);
     }
 }
