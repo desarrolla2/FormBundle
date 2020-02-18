@@ -15,6 +15,9 @@ services:
   desarrolla2_form.form_transformer.utf8transformer:
     class: 'Desarrolla2\FormBundle\Form\Transformer\Utf8Transformer'
 
+  desarrolla2_form.form_transformer.twig_template_transformer:
+    class: 'Desarrolla2\FormBundle\Form\Transformer\TwigTemplateTransformer'
+
   desarrolla2_form.form_transformer.bbcode_transformer:
     class: 'Desarrolla2\FormBundle\Form\Transformer\BBcodeTransformer'
     arguments: ['@jbbcode.parser']
