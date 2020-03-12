@@ -176,3 +176,164 @@
     </select>
   {% endspaceless %}
 {% endblock %}
+
+{% block cropper_widget %}
+  {% spaceless %}
+    <link rel="stylesheet" href="{{ asset('assets/css/cropper.css') }}">
+    <style>
+      {% set bgImage = 'none' %}
+      {% if bgCropperImage is not null %}
+        {% set bgImage = 'url(' ~ asset(bgCropperImage) ~ ')' %}
+      {% endif %}
+      {% set opacity = bgCropperOpacity %}
+      .cropper-view-box, .cropper-face {
+        background: {{ bgImage }};
+        background-size: contain;
+        opacity: {{ bgCropperOpacity }};
+      }
+    </style>
+    <div class="box box-solid">
+      <div class="box-header">
+        <h3 class="box-title"><i class="fa fa-pencil"></i> {{ 'crop current image'|trans|capitalize }}</h3>
+      </div>
+      <div class="box-body">
+        <div class="col-sm-6 col-sm-offset-3">
+          <img id="cropperImage" src="{{ vich_uploader_asset(image, 'originalImageFile') }}">
+        </div>
+      </div>
+    </div>
+    <div class="box box-solid">
+      <div class="box-header">
+        <h3 class="box-title"><i class="fa fa-pencil"></i> {{ 'load new image'|trans|capitalize }}</h3>
+      </div>
+      <div class="box-body">
+        {{ form_row(form.originalImageFile) }}
+      </div>
+    </div>
+    {{ form_row(form.data) }}
+    {{ form_row(form.canvasData) }}
+    {{ form_row(form.cropBoxData) }}
+    {{ form_row(form.base64) }}
+    <script src="{{ asset('assets/js/cropper.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+                var image = document.getElementById('cropperImage');
+
+                var croppable = false;
+                var cropper = new Cropper(image, {
+                    viewMode: 0,
+                    dragMode: 'move',
+                    autoCrop: true,
+                    initialAspectRatio: 1.4,
+                    aspectRatio: 1.4,
+                    guides: false,
+                    center: false,
+                    highlight: true,
+                    cropBoxMovable: false,
+                    cropBoxResizable: false,
+                    ready: function () {
+                        croppable = true;
+
+                      {% if image.data != '' %}
+                        var data = JSON.parse('{{ image.data|raw }}');
+                        cropper.setData(data);
+                      {% endif %}
+
+                      {% if image.canvasData != '' %}
+                        var canvasData = JSON.parse('{{ image.canvasData|raw }}');
+                        cropper.setCanvasData(canvasData);
+                      {% endif %}
+
+                      {% if image.cropBoxData != '' %}
+                        var cropBoxData = JSON.parse('{{ image.cropBoxData|raw }}');
+                        cropper.setCropBoxData(cropBoxData);
+                      {% endif %}
+                    },
+                });
+
+                var $form = $('form[name="{{ formName }}"]');
+                $form.submit(function (e) {
+                    //e.preventDefault();
+                    var croppedCanvas;
+
+                    if (!croppable) {
+                        return;
+                    }
+
+                    croppedCanvas = cropper.getCroppedCanvas();
+
+                    var data = cropper.getData();
+                    var canvasData = cropper.getCanvasData();
+                    var cropBoxData = cropper.getCropBoxData();
+
+                    data = {
+                        'x': data.x,
+                        'y': data.y,
+                        'width': data.width,
+                        'height': data.height,
+                        'rotate': data.rotate,
+                        'scaleX': data.scaleX,
+                        'scaleY': data.scaleY
+                    };
+                    canvasData = {
+                        'left': canvasData.left,
+                        'top': canvasData.top,
+                        'width': canvasData.width,
+                        'height': canvasData.height,
+                        'naturalWidth': canvasData.naturalWidth,
+                        'naturalHeight': canvasData.naturalHeight,
+                        'aspectRatio': canvasData.width / canvasData.height
+                    };
+                    cropBoxData = {
+                        'left': cropBoxData.left,
+                        'top': cropBoxData.top,
+                        'width': cropBoxData.width,
+                        'height': cropBoxData.height
+                    };
+
+                    $('#{{ entityName }}_cropperImage_data').val(JSON.stringify(data));
+                    $("#{{ entityName }}_cropperImage_canvasData").val(JSON.stringify(canvasData));
+                    $('#{{ entityName }}_cropperImage_cropBoxData').val(JSON.stringify(cropBoxData));
+                    $('#{{ entityName }}_cropperImage_base64').val(croppedCanvas.toDataURL());
+                });
+
+
+                var $input = $('#{{ entityName }}_cropperImage_originalImageFile_file');
+                $input.on('change', function () {
+                    var current = $(this)[0];
+                    if (current.files && current.files[0]) {
+                        var reader = new FileReader();
+
+                        reader.onload = function (event) {
+                            cropper.destroy();
+
+                            $("#cropperImage").attr('src', event.target.result);
+                            image = document.getElementById('cropperImage');
+                            cropper = new Cropper(image, {
+                                viewMode: 0,
+                                dragMode: 'move',
+                                autoCrop: true,
+                                initialAspectRatio: 1.4,
+                                aspectRatio: 1.4,
+                                guides: false,
+                                center: false,
+                                highlight: true,
+                                cropBoxMovable: false,
+                                cropBoxResizable: false,
+                                ready: function () {
+                                    croppable = true;
+                                },
+                            });
+                        };
+
+                        reader.readAsDataURL(current.files[0]);
+                    } else {
+                        console.log('Sorry - you\'re browser doesn\'t support the FileReader API');
+                    }
+
+                });
+            }
+        );
+    </script>
+  {% endspaceless %}
+{% endblock %}
