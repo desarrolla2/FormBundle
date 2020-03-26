@@ -49,3 +49,9 @@ services:
     class: 'Desarrolla2\FormBundle\Form\Sonata\Filter\NumberRangeFilter'
     tags:
       - { name: 'sonata.admin.filter.type', alias: 'Desarrolla2\FormBundle\Form\Sonata\Filter\NumberRangeFilter' }
+
+  desarrolla2_form.form_type.cropper_type:
+    class: 'Desarrolla2\FormBundle\Form\Type\CropperType'
+    arguments: ['@vich_uploader.upload_handler', '@doctrine.orm.entity_manager']
+    tags:
+      - { name: 'form.type', alias: 'Desarrolla2\FormBundle\Form\Type\CropperType' }

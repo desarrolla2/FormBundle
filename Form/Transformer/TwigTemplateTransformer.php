@@ -27,11 +27,14 @@ class TwigTemplateTransformer implements DataTransformerInterface
         $value = html_entity_decode($value);
         $value = preg_replace(['#{{[\s]+#', '#[\s]+}}#'], ['{{', '}}'], $value);
 
+        dump($value);
+
         return $value;
     }
 
     public function transform($value)
     {
+
         return $this->reverseTransform($value);
     }
 }
