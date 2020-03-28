@@ -26,9 +26,7 @@ class TwigTemplateTransformer implements DataTransformerInterface
         $value = urldecode($value);
         $value = html_entity_decode($value);
         $value = preg_replace(['#{{[\s]+#', '#[\s]+}}#'], ['{{', '}}'], $value);
-
-        dump($value);
-
+        
         return $value;
     }
 
