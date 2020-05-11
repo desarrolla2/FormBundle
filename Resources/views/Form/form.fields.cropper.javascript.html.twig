@@ -13,13 +13,14 @@
       highlight: true,
       cropBoxMovable: false,
       cropBoxResizable: false,
+      responsive: false,
       ready: function () {
         croppable = true;
-
         {% if image.data != '' %}
         var data = JSON.parse('{{ image.data|raw }}');
         cropper.setData(data);
         {% endif %}
+        cropper.setData({minContainerWidth: 1754, minContainerHeight: 1240})
         {% if image.canvasData != '' %}
         var canvasData = JSON.parse('{{ image.canvasData|raw }}');
         cropper.setCanvasData(canvasData);
@@ -28,9 +29,9 @@
         var cropBoxData = JSON.parse('{{ image.cropBoxData|raw }}');
         cropper.setCropBoxData(cropBoxData);
         {% endif %}
+        cropper.setCropBoxData({width: 1754, height: 1240})
       },
     });
-
     var $form = $('form[name="{{ formName }}"]');
     $form.submit(function (e) {
       var croppedCanvas;
@@ -91,8 +92,7 @@
             viewMode: 0,
             dragMode: 'move',
             autoCrop: true,
-            initialAspectRatio: 1.4,
-            aspectRatio: 1.4,
+            aspectRatio: {{ 1754/1240 }},
             guides: false,
             center: false,
             highlight: true,
