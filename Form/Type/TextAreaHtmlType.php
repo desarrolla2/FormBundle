@@ -67,7 +67,7 @@ class TextAreaHtmlType extends AbstractType
                 'transform_utf8' => true,
                 'constraints' => [
                     new NotNull(),
-                    new Length(['min' => 3, 'max' => 5000]),
+                    new Length(['min' => 3, 'max' => 20000]),
                 ],
                 'attr' => ['class' => 'ckeditor form-control'],
             ]
