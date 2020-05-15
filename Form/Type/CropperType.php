@@ -13,13 +13,10 @@
 
 namespace Desarrolla2\FormBundle\Form\Type;
 
-use AppBundle\Entity\Service\Page\Image;
 use Desarrolla2\FormBundle\Form\Validator\FileExtension;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -28,10 +25,8 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
-use Symfony\Component\Validator\Constraints\Length;
 use Vich\UploaderBundle\Form\Type\VichFileType;
 use Vich\UploaderBundle\Handler\UploadHandler;
 
@@ -74,23 +69,14 @@ class CropperType extends AbstractType
             ->add('cropBoxData', HiddenType::class)
             ->add('base64', HiddenType::class, ['mapped' => false]);
 
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event): void {
-            $form = $event->getForm();
-            $image = $form->getData();
+        $builder->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event): void {
+                $form = $event->getForm();
+                $image = $form->getData();
 
-            $this->saveImage($image, $form->get('base64')->getData());
-        });
-    }
-
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(
-            [
-                'bgCropperImage' => null,
-                'bgCropperOpacity' => 1,
-                'entityName' => 'image',
-                'formName' => 'image'
-            ]
+                $this->saveImage($image, $form->get('base64')->getData());
+            }
         );
     }
 
@@ -104,6 +90,23 @@ class CropperType extends AbstractType
         $view->vars['bgCropperOpacity'] = $options['bgCropperOpacity'];
         $view->vars['entityName'] = $options['entityName'];
         $view->vars['formName'] = $options['formName'];
+        $view->vars['width'] = $options['width'];
+        $view->vars['height'] = $options['height'];
+        $view->vars['aspectRatio'] = round($view->vars['width'] / $view->vars['height'], 4);
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(
+            [
+                'bgCropperImage' => null,
+                'bgCropperOpacity' => 1,
+                'entityName' => 'image',
+                'formName' => 'image',
+                'width' => 1754,
+                'height' => 1240,
+            ]
+        );
     }
 
     public function saveImage($image, ?string $base64): void
@@ -130,28 +133,6 @@ class CropperType extends AbstractType
         $croppedImageFile = new UploadedFile($realpath, $fileName, $mimeType, filesize($realpath), null, true);
 
         $image->setImageFile($croppedImageFile);
-    }
-
-    private function getExtension(string $base64): string
-    {
-        $data = $this->getDataExtensionByBase64($base64);
-
-        if (!$data) {
-            throw new NotFoundHttpException();
-        }
-
-        return $data['extension'];
-    }
-
-    private function getMimeType(string $base64): string
-    {
-        $data = $this->getDataExtensionByBase64($base64);
-
-        if (!$data) {
-            throw new NotFoundHttpException();
-        }
-
-        return $data['mime-type'];
     }
 
     private function cmd(string $cmd): void
@@ -184,8 +165,30 @@ class CropperType extends AbstractType
         return null;
     }
 
+    private function getExtension(string $base64): string
+    {
+        $data = $this->getDataExtensionByBase64($base64);
+
+        if (!$data) {
+            throw new NotFoundHttpException();
+        }
+
+        return $data['extension'];
+    }
+
     private function getFormats(): array
     {
         return ['jpeg' => 'image/jpeg', 'jpg' => 'image/jpg', 'png' => 'image/png'];
+    }
+
+    private function getMimeType(string $base64): string
+    {
+        $data = $this->getDataExtensionByBase64($base64);
+
+        if (!$data) {
+            throw new NotFoundHttpException();
+        }
+
+        return $data['mime-type'];
     }
 }
