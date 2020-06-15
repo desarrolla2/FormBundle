@@ -80,7 +80,9 @@
       <div class="input-group">
         <input type="text" {{ block('widget_attributes') }}
           {% if value is not empty %}value="{{ value }}" {% endif %}/>
-        <div class="input-group-addon">&euro;</div>
+        {% if icon|length %}
+          <div class="input-group-addon"><i class="{{ icon }}"></i></div>
+        {% endif %}
       </div>
     </div>
   {% endspaceless %}
@@ -93,7 +95,9 @@
       <div class="input-group">
         <input type="text" {{ block('widget_attributes') }}
           {% if value is not empty %}value="{{ value }}" {% endif %}/>
-        <div class="input-group-addon"><i class="fa fa-money"></i></div>
+        {% if icon|length %}
+          <div class="input-group-addon"><i class="{{ icon }}"></i></div>
+        {% endif %}
       </div>
     </div>
   {% endspaceless %}

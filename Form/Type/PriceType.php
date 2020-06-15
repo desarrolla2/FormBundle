@@ -15,6 +15,9 @@ namespace Desarrolla2\FormBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Range;
 
@@ -28,6 +31,7 @@ class PriceType extends AbstractType
                     new Range(['min' => 0]),
                 ],
                 'grouping' => true,
+                'icon' => 'fa fa-euro',
                 'scale' => 2,
                 'empty_data' => 0.0,
                 'required' => true,
@@ -38,6 +42,20 @@ class PriceType extends AbstractType
                 ],
             ]
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function buildView(FormView $view, FormInterface $form, array $options)
+    {
+        $view->vars['icon'] = $options['icon'];
+    }
+
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->setAttribute('icon', $options['icon']);
     }
 
     public function getParent()
