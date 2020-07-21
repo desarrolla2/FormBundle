@@ -37,6 +37,7 @@ class MoneyType extends AbstractType
                 'placeholder' => 'Price',
                 'attr' => [
                     'class' => 'form-control',
+                    'help' => 'Format 1,234.56',
                 ],
             ]
         );
