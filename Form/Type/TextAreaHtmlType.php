@@ -20,6 +20,7 @@ use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 
 class TextAreaHtmlType extends AbstractType
@@ -44,7 +45,7 @@ class TextAreaHtmlType extends AbstractType
 
     /**
      * @param FormBuilderInterface $builder
-     * @param array                $options
+     * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -67,6 +68,7 @@ class TextAreaHtmlType extends AbstractType
                 'transform_utf8' => true,
                 'constraints' => [
                     new NotNull(),
+                    new NotBlank(),
                     new Length(['min' => 3, 'max' => 20000]),
                 ],
                 'attr' => ['class' => 'ckeditor form-control'],
