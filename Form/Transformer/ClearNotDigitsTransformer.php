@@ -17,27 +17,13 @@ use Symfony\Component\Form\DataTransformerInterface;
 
 class ClearNotDigitsTransformer implements DataTransformerInterface
 {
-    /**
-     * @param string $number
-     *
-     * @return string
-     */
     public function reverseTransform($number)
     {
-        return preg_replace("/[^\d]/", "", $number);
+        return $this->transform($number);
     }
 
-    /**
-     * @param string $number
-     *
-     * @return string
-     */
     public function transform($number)
     {
-        if (null === $number) {
-            return '';
-        }
-
-        return $number;
+        return preg_replace("/[^\d]/", "", $number);
     }
 }
