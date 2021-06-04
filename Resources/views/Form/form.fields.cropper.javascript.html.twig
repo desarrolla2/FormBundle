@@ -16,19 +16,23 @@
       responsive: false,
       ready: function () {
         croppable = true;
+
         {% if image.data != '' %}
         var data = JSON.parse('{{ image.data|raw }}');
         cropper.setData(data);
         {% endif %}
-        cropper.setData({minContainerWidth: {{ width }}, minContainerHeight: {{ height }}})
+
         {% if image.canvasData != '' %}
         var canvasData = JSON.parse('{{ image.canvasData|raw }}');
         cropper.setCanvasData(canvasData);
         {% endif %}
+
         {% if image.cropBoxData != '' %}
         var cropBoxData = JSON.parse('{{ image.cropBoxData|raw }}');
         cropper.setCropBoxData(cropBoxData);
         {% endif %}
+
+        cropper.setData({minContainerWidth: {{ width }}, minContainerHeight: {{ height }}})
         cropper.setCropBoxData({width: {{ width }}, height: {{ height }}})
       },
     });
