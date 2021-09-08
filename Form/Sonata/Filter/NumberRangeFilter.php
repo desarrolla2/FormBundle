@@ -4,6 +4,7 @@ namespace Desarrolla2\FormBundle\Form\Sonata\Filter;
 
 use Desarrolla2\FormBundle\Form\Type\NumberRangeType;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Form\Type\Filter\NumberType;
 use Sonata\DoctrineORMAdminBundle\Filter\Filter;
 
 class NumberRangeFilter extends Filter
@@ -15,27 +16,32 @@ class NumberRangeFilter extends Filter
         if (!$data || !is_array($data) || !array_key_exists('value', $data)) {
             return;
         }
-        $this->handle($queryBuilder, $alias, $field, $data, 'from', '>=');
-        $this->handle($queryBuilder, $alias, $field, $data, 'to', '<=');
+        $this->handle($queryBuilder, $alias, $field, $data, 'start', '>=');
+        $this->handle($queryBuilder, $alias, $field, $data, 'end', '<=');
     }
 
     public function getDefaultOptions()
     {
-        return [];
+        return [
+            'input_type' => NumberType::class,
+        ];
     }
 
     public function getRenderSettings()
     {
         return [
-            'sonata_type_filter_default',
+            NumberType::class,
             [
-                'field_type' => NumberRangeType::class,
+                'field_type' => $this->getFieldType(),
                 'field_options' => $this->getFieldOptions(),
-                'operator_type' => 'hidden',
-                'operator_options' => [],
                 'label' => $this->getLabel(),
             ],
         ];
+    }
+
+    public function getFieldType()
+    {
+        return $this->getOption('field_type', NumberRangeType::class);
     }
 
     private function handle(ProxyQueryInterface $queryBuilder, $alias, $field, $data, $arrayKey, $operator): void
